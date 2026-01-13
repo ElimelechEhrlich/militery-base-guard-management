@@ -1,17 +1,20 @@
-import { Body, Controller,Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { type Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService){}
-    @Get()
-    getMocked(): string {
-        return this.authService.getMocked()
-    }
-
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    async loginUser(@Body() loginDto) {
-        return await this.authService.loginUser(loginDto.username, loginDto.password);
+    async loginUser(@Body() bodyLogin: {username: string, password: string}, @Res({ passthrough: true }) response: Response) {
+        const loginData = await this.authService.loginUser(bodyLogin['username'], bodyLogin['password']);
+        response.cookie('access_token', loginData.access_token, {
+            httpOnly: true, 
+            sameSite: 'strict'
+        });
+        return { message: 'Success' };
     }
 }
+
+ 

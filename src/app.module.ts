@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { ShiftsModule } from './shifts/shifts.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { ConfigModule } from '@nestjs/config';
+import { UsersDbModule } from './users-db/users-db.module';
 
 @Module({
     imports: [
@@ -14,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
             envFilePath: '.env',
         }),
         AuthModule, 
-        UsersModule, 
+        UsersDbModule, 
         ShiftsModule, 
         AssignmentsModule],
     controllers: [AppController],
