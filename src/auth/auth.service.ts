@@ -1,8 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User, UsersDbService } from 'src/users-db/users-db.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from "bcryptjs"
 import { ConfigModule } from '@nestjs/config';
+import { UsersService } from 'src/users/users.service';
+import { UserEntity } from 'src/users/usersDto/user.entity';
+import { User } from 'src/users/usersDto/usersDto';
 ConfigModule.forRoot()
 
 
@@ -10,12 +12,12 @@ ConfigModule.forRoot()
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly usersDbService: UsersDbService,
+        private readonly usersService: UsersService,
         private readonly jwtService: JwtService
     ) {}
 
     async loginUser(username: string, password: string) {
-        const user: User | undefined = this.usersDbService.findOne(username);
+        const user: UserEntity | null = await this.usersService.findOneByUsername(username);
         if (!user) throw new UnauthorizedException();
         else {          
             const hashCompare: boolean = await bcrypt.compare(password, user.passwordHash)           

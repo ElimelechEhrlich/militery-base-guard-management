@@ -1,10 +1,6 @@
 import { Injectable, VersioningType } from '@nestjs/common';
 import bcrypt from "bcryptjs"
-
-export enum Role{
-    "soldier" = "soldier",
-    "commander" = "commander"
-}
+import { Role } from 'src/users/usersDto/usersDto';
 
 export type User = {
     id: number,
@@ -21,13 +17,13 @@ export class UsersDbService {
                 id: 1,
                 username: 'eli',
                 passwordHash: '$2b$10$44O12n3UtenSxSilVy9MSuFcHjptuWA0R3aZjqk.VFcLF0CZg9/6S',
-                role: Role.commander
+                role: 'commander'
             },
             {
                 id: 2,
                 username: 'maria',
                 passwordHash: 'guess',
-                role: Role.soldier
+                role: 'soldier'
             },
             {
                 id: 3,
@@ -48,8 +44,12 @@ export class UsersDbService {
         return {message: "The addition was successful."}
     }
 
-    findOne(username: string): User | undefined {
+    findOneByUsername(username: string): User | undefined {
         return this.getAll().find(user => user.username === username);
+    }
+
+    findOneById(id: number): User | undefined {
+        return this.getAll().find(user => user.id === id);
     }
     
 }
