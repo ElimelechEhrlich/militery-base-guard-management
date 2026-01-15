@@ -1,9 +1,9 @@
-import { UserEntity } from "./usersDto/user.entity";
+// import { UserEntity } from "./usersDto/user.entity";
 
 
-export const UsersProviders = [
-    {
-        provide: 'USER_REPOSITORY',
-        useValue: UserEntity
-    }
-]
+// export const UsersProviders = [
+//     {
+//         provide: 'USER_REPOSITORY',
+//         useValue: UserEntity
+//     }
+// ]

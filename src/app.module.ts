@@ -11,8 +11,6 @@ import { ValidationPipe } from './users/usersDto/validation.pipe';
 import { DataSource } from 'typeorm';
 import { UserEntity } from './users/usersDto/user.entity';
 import { Sequelize } from 'sequelize-typescript';
-import { databaseProviders } from './database/database.providers';
-import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 
 
@@ -20,16 +18,25 @@ import { UsersModule } from './users/users.module';
 @Module({
     imports:
         [
-            DatabaseModule,
+            SequelizeModule.forRoot({
+                dialect: 'mysql',
+                host: 'localhost',
+                port: 3306,
+                username: 'root',
+                password: "apppass",
+                database: "users",
+                autoLoadModels: true,
+                synchronize: true,
+            })
+            ,
             ConfigModule.forRoot({
                 isGlobal: true,
                 envFilePath: '.env',
             }),
             AuthModule,
-            DatabaseModule,
             UsersModule,
             ShiftsModule,
-            AssignmentsModule, DatabaseModule
+            AssignmentsModule
         ],
     controllers: [AppController],
     providers:
@@ -38,7 +45,7 @@ import { UsersModule } from './users/users.module';
             {
                 provide: APP_PIPE,
                 useClass: ValidationPipe,
-            }
+            },
         ]
 })
 export class AppModule {}

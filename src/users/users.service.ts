@@ -1,14 +1,16 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import bcrypt from "bcryptjs"
-import { Role,User } from './usersDto/usersDto';
+import { Role } from './usersDto/usersDto';
 import { UserEntity } from './usersDto/user.entity';
+import { InjectModel } from '@nestjs/sequelize';
+
 
 
 
 @Injectable()
 export class UsersService {
     constructor(
-        @Inject('USER_REPOSITORY')
+        @InjectModel(UserEntity)
         private usersRepository: typeof UserEntity,
     ) {}
 
@@ -31,7 +33,6 @@ export class UsersService {
         return {message: `Added course with id ${(await res).dataValues.id}`}
     }
 }
-
 
 
   
