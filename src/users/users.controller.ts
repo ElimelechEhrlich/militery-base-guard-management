@@ -8,7 +8,7 @@ import { Roles } from 'src/auth/roles.decorator';
 import { UserEntity } from './usersDto/user.entity';
 
 @Controller('users')
-// @UseGuards(UsersGuard)
+//@UseGuards(UsersGuard)
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
@@ -31,7 +31,7 @@ export class UsersController {
     }
 
     @Post("add")
-    // @Roles([Role.commander])
+    @Roles([Role.commander])
     async create(@Body(//new ValidationPipe()
     ) createUserDto: User) {
         const newUser = [createUserDto['username'], createUserDto['password'], createUserDto['role']]
